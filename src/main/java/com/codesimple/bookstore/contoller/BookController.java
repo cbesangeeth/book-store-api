@@ -3,7 +3,11 @@ package com.codesimple.bookstore.contoller;
 import com.codesimple.bookstore.entity.Book;
 import com.codesimple.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,4 +50,8 @@ public class BookController {
         return bookService.deleteById(bookId);
     }
 
+    @GetMapping("/raw/books")
+    public List<Book> getBooksByRawQuery(@RequestParam(value = "yop") Set<Integer> yop){
+        return bookService.getBooksByRawQuery(yop);
+    }
 }

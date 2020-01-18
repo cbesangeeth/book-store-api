@@ -51,4 +51,12 @@ public class BookService {
 
         return "Deleted Successfully";
     }
+
+    // raw query - get books
+    public List<Book> getBooksByRawQuery(Set<Integer> yop) {
+
+        List<Book> bookList = bookRepository.findAllByYearOfPublicationIn(yop);
+
+        return bookList;
+    }
 }
