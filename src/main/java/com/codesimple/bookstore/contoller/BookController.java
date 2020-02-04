@@ -1,5 +1,6 @@
 package com.codesimple.bookstore.contoller;
 
+import com.codesimple.bookstore.dto.BookDTO;
 import com.codesimple.bookstore.entity.Book;
 import com.codesimple.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,11 @@ public class BookController {
     }
 
     @RequestMapping(value = "/books/{id}")
-    public Book getBookById(@PathVariable("id") Integer bookId) {
-        return bookService.getBookById(bookId);
+    public BookDTO getBookById(
+            @PathVariable("id") Long bookId,
+            @RequestParam(value = "authorData", required = false) boolean authorData
+    ){
+        return bookService.getBookById(bookId, authorData);
     }
 
     @RequestMapping(value = "/books", method = RequestMethod.PUT)
@@ -46,7 +50,7 @@ public class BookController {
     }
 
     @RequestMapping(value = "/books/{bookId}", method = RequestMethod.DELETE)
-    public String deleteBookById(@PathVariable Integer bookId) {
+    public String deleteBookById(@PathVariable Long bookId) {
         return bookService.deleteById(bookId);
     }
 

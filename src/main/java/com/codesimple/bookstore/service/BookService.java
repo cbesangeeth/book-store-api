@@ -1,6 +1,11 @@
 package com.codesimple.bookstore.service;
 
+import com.codesimple.bookstore.dto.AuthorDTO;
+import com.codesimple.bookstore.dto.BookDTO;
+import com.codesimple.bookstore.entity.Author;
 import com.codesimple.bookstore.entity.Book;
+import com.codesimple.bookstore.entity.BookAuthor;
+import com.codesimple.bookstore.repo.BookAuthorRepository;
 import com.codesimple.bookstore.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,16 +20,19 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private BookAuthorRepository bookAuthorRepository;
+
     // Get
     public List<Book> getBooks(Set<Integer> yop, String bookType) {
 
         List<Book> bookList = new ArrayList<>();
 
-        if(yop == null){
+        if (yop == null) {
             bookRepository.findAll()
                     .forEach(book -> bookList.add(book));
         } else {
-             return bookRepository.findAllByYearOfPublicationInAndBookType(yop, bookType);
+            return bookRepository.findAllByYearOfPublicationInAndBookType(yop, bookType);
         }
 
         return bookList;
@@ -36,8 +44,44 @@ public class BookService {
     }
 
     // Single resource
-    public Book getBookById(Integer bookId) {
-        return bookRepository.findOne(bookId);
+    public BookDTO getBookById(Long bookId, boolean authorData) {
+
+        Book book;
+        List<BookAuthor> bookAuthors = null;
+
+        book = bookRepository.findOne(bookId);
+
+        if (authorData) {
+            bookAuthors = bookAuthorRepository.findAllByBookId(bookId);
+        }
+
+        BookDTO bookDTO = new BookDTO();
+
+        // set book details
+        bookDTO.setId(book.getId());
+        bookDTO.setName(book.getName());
+        bookDTO.setDesc(book.getDesc());
+        bookDTO.setYearOfPublication(book.getYearOfPublication());
+        bookDTO.setBookType(book.getBookType());
+
+        // get author details
+        List<AuthorDTO> authorDTOList = new ArrayList<>();
+        if (bookAuthors != null) {
+            for (BookAuthor bookAuthor : bookAuthors) {
+                Author author = bookAuthor.getAuthor();
+
+                AuthorDTO authorDTO = new AuthorDTO();
+                authorDTO.setId(author.getId());
+                authorDTO.setName(author.getName());
+                authorDTO.setGender(author.getGender());
+
+                authorDTOList.add(authorDTO);
+            }
+
+            // set author details
+            bookDTO.setAuthors(authorDTOList);
+        }
+        return bookDTO;
     }
 
     // Update
@@ -46,7 +90,7 @@ public class BookService {
     }
 
     // Delete
-    public String deleteById(Integer bookId) {
+    public String deleteById(Long bookId) {
         bookRepository.delete(bookId);
 
         return "Deleted Successfully";

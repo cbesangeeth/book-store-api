@@ -1,5 +1,6 @@
 package com.codesimple.bookstore.entity;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import javax.persistence.Entity;
@@ -15,7 +16,9 @@ public class Author {
     private Long id;
     private String name;
     private String gender;
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime createdAt;
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime updatedAt;
 
     public Long getId() {

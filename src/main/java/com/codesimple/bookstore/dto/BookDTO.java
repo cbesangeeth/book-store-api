@@ -1,34 +1,21 @@
-package com.codesimple.bookstore.entity;
+package com.codesimple.bookstore.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.codesimple.bookstore.entity.Author;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-@Entity
-public class Book {
+import java.util.List;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class BookDTO {
+
     private Long id;
     private String name;
-    @Column(name = "description")
     private String desc;
     private Integer yearOfPublication;
     private String bookType;
 
-    public Book() {
-
-    }
-
-    public Book(Long id, String name, String desc, Integer yearOfPublication, String bookType) {
-        this.id = id;
-        this.name = name;
-        this.desc = desc;
-        this.yearOfPublication = yearOfPublication;
-        this.bookType = bookType;
-    }
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<AuthorDTO> authors;
 
     public Long getId() {
         return id;
@@ -68,5 +55,13 @@ public class Book {
 
     public void setBookType(String bookType) {
         this.bookType = bookType;
+    }
+
+    public List<AuthorDTO> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(List<AuthorDTO> authors) {
+        this.authors = authors;
     }
 }
