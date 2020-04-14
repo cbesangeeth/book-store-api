@@ -1,5 +1,7 @@
 package com.codesimple.bookstore.service;
 
+import com.codesimple.bookstore.common.APIResponse;
+import com.codesimple.bookstore.data.BookData;
 import com.codesimple.bookstore.dto.AuthorDTO;
 import com.codesimple.bookstore.dto.BookDTO;
 import com.codesimple.bookstore.entity.Author;
@@ -11,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -97,10 +101,20 @@ public class BookService {
     }
 
     // raw query - get books
-    public List<Book> getBooksByRawQuery(Set<Integer> yop) {
+    public APIResponse getBooksByRawQuery(Set<Integer> yop) {
 
+        APIResponse apiResponse = new APIResponse();
+
+        // db call
         List<Book> bookList = bookRepository.findAllByYearOfPublicationIn(yop);
 
-        return bookList;
+        // set data
+        BookData bookData = new BookData();
+        bookData.setBooks(bookList);
+
+        // set api response
+        apiResponse.setData(bookData);
+
+        return apiResponse;
     }
 }
