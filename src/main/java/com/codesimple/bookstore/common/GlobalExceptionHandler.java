@@ -18,6 +18,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(apiResponse);
     }
 
+    @ExceptionHandler
+    public ResponseEntity handleBadRequestException(BadRequestException e){
+
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+        apiResponse.setError(e.getErrors());
+
+        return ResponseEntity.status(400).body(apiResponse);
+    }
 
 
 }
