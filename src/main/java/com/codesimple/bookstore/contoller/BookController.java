@@ -61,4 +61,5 @@ public class BookController {
     public APIResponse getCaughtException(@RequestParam(value = "number") Integer yop){
         return bookService.getCaughtException(yop);
     }
+
 }
