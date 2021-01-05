@@ -64,7 +64,7 @@ public class PaginationMeta {
 
         paginationMeta.setIsFirst(page.isFirst());
         paginationMeta.setIsLast(page.isLast());
-        paginationMeta.setPageNumber(page.getNumber());
+        paginationMeta.setPageNumber(page.getNumber() + 1);
         paginationMeta.setPageSize(page.getSize());
         paginationMeta.setTotalCount(page.getTotalElements());
         paginationMeta.setTotalPage(page.getTotalPages());
