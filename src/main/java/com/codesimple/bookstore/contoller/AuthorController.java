@@ -4,6 +4,8 @@ import com.codesimple.bookstore.common.APIResponse;
 import com.codesimple.bookstore.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,9 +16,17 @@ public class AuthorController {
     public AuthorService authorService;
 
     @GetMapping(value = "/authors")
-    private APIResponse getAuthors(Pageable pageable){
+    private APIResponse getAuthors(@SortDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
 
         APIResponse apiResponse = authorService.getAuthors(pageable);
+
+        return apiResponse;
+    }
+
+    @GetMapping(value = "/authorsWithNamed")
+    private APIResponse getAuthorsWithNamedQuery(Pageable pageable){
+
+        APIResponse apiResponse = authorService.getAuthorsWithNamedQuery(pageable);
 
         return apiResponse;
     }
