@@ -144,4 +144,16 @@ public class BookService {
 
         return response;
     }
+
+    public APIResponse getBooksByQueryDsl(Integer year) {
+        APIResponse apiResponse = new APIResponse();
+
+        // repo to get the result
+        List<Book> bookList = bookRepository.getAllBooksByQuerDsl(year);
+
+        apiResponse.setData(bookList);
+
+        //return
+        return apiResponse;
+    }
 }
