@@ -6,6 +6,7 @@ import com.codesimple.bookstore.common.Error;
 import com.codesimple.bookstore.data.BookData;
 import com.codesimple.bookstore.dto.AuthorDTO;
 import com.codesimple.bookstore.dto.BookDTO;
+import com.codesimple.bookstore.dto.BookQueryDslDTO;
 import com.codesimple.bookstore.entity.Author;
 import com.codesimple.bookstore.entity.Book;
 import com.codesimple.bookstore.entity.BookAuthor;
@@ -149,9 +150,11 @@ public class BookService {
         APIResponse apiResponse = new APIResponse();
 
         // repo to get the result
-        List<Book> bookList = bookRepository.getAllBooksByQuerDsl(year);
+//        List<Book> bookList = bookRepository.getAllBooksByQuerDsl(year);
 
-        apiResponse.setData(bookList);
+        List<BookQueryDslDTO> bookQueryDslDTOS = bookRepository.getAllBooksByQuerDslDto(year);
+
+        apiResponse.setData(bookQueryDslDTOS);
 
         //return
         return apiResponse;
