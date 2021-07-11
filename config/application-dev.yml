@@ -5,7 +5,17 @@ spring:
     url: jdbc:mysql://localhost:3306/bookstoredb
     username: root
     password: root
+    driver-class-name: com.mysql.jdbc.Driver
   jpa:
     show-sql: true
-#    hibernate:
-#      ddl-auto: create
+    database: mysql
+    hibernate:
+#      ddl-auto: update
+#      show_sql: true
+#      format_sql: true
+#      show-sql: true
+#      dialect: org.hibernate.dialect.MySQLInnoDBDialect
+##      dialect: org.hibernate.dialect.MySQLDialect
+      ddl-auto: update
+
+

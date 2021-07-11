@@ -60,7 +60,6 @@ public class BookService {
             throw new BadRequestException("bad request", errors);
         }
 
-
         // if success
         return bookRepository.save(book);
     }
@@ -150,7 +149,7 @@ public class BookService {
         APIResponse apiResponse = new APIResponse();
 
         // repo to get the result
-//        List<Book> bookList = bookRepository.getAllBooksByQuerDsl(year);
+        // List<Book> bookList = bookRepository.getAllBooksByQuerDsl(year);
 
         List<BookQueryDslDTO> bookQueryDslDTOS = bookRepository.getAllBooksByQuerDslDto(year);
 
