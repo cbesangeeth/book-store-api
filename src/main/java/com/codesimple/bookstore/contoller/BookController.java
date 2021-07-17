@@ -4,7 +4,6 @@ import com.codesimple.bookstore.common.APIResponse;
 import com.codesimple.bookstore.dto.BookDTO;
 import com.codesimple.bookstore.entity.Book;
 import com.codesimple.bookstore.service.BookService;
-import com.codesimple.bookstore.util.BooksPDFExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -76,24 +75,5 @@ public class BookController {
         return bookService.getBooksByQueryDsl(year);
     }
 
-    @GetMapping("/books:export")
-    public APIResponse exportBooks() throws IOException {
-
-        List<Book> list = bookService.getBooks(null, null);
-
-        final RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        final HttpServletResponse response = ((ServletRequestAttributes) requestAttributes).getResponse();
-
-        response.setContentType("application/pdf");
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-        String currentDateTime = dateFormatter.format(new Date());
-
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
-        response.setHeader(headerKey, headerValue);
-        BooksPDFExporter exporter = new BooksPDFExporter(list);
-        exporter.export(response);
-        return null;
-    }
 
 }

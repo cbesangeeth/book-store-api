@@ -28,5 +28,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(apiResponse);
     }
 
+    @ExceptionHandler
+    public ResponseEntity handleAccessDeniedException(AccessDeniedException e){
+
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+    }
+
+
 
 }
