@@ -2,25 +2,12 @@ package com.codesimple.bookstore.contoller;
 
 import com.codesimple.bookstore.common.APIResponse;
 import com.codesimple.bookstore.dto.BookDTO;
+import com.codesimple.bookstore.dto.BulkBooksRequestDTO;
 import com.codesimple.bookstore.entity.Book;
 import com.codesimple.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -73,6 +60,11 @@ public class BookController {
     @GetMapping("/queryDsl/books")
     public APIResponse getBooksByQueryDsl(@RequestParam(value ="year") Integer year){
         return bookService.getBooksByQueryDsl(year);
+    }
+
+    @PostMapping("/bulkBooks")
+    public APIResponse bulkBooks(@RequestBody BulkBooksRequestDTO bulkBooksRequestDTO){
+        return bookService.bulkService(bulkBooksRequestDTO);
     }
 
 

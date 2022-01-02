@@ -1,16 +1,15 @@
 package com.codesimple.bookstore.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 
 @Entity
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "abc")
+    @GenericGenerator(name = "abc", strategy = "increment")
     private Long id;
     private String name;
     @Column(name = "description")

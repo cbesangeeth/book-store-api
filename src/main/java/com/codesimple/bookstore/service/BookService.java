@@ -7,6 +7,7 @@ import com.codesimple.bookstore.data.BookData;
 import com.codesimple.bookstore.dto.AuthorDTO;
 import com.codesimple.bookstore.dto.BookDTO;
 import com.codesimple.bookstore.dto.BookQueryDslDTO;
+import com.codesimple.bookstore.dto.BulkBooksRequestDTO;
 import com.codesimple.bookstore.entity.Author;
 import com.codesimple.bookstore.entity.Book;
 import com.codesimple.bookstore.entity.BookAuthor;
@@ -17,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -157,5 +156,36 @@ public class BookService {
 
         //return
         return apiResponse;
+    }
+
+    public APIResponse bulkService(BulkBooksRequestDTO bulkBooksRequestDTO) {
+
+        List<Book> booksEntity = new ArrayList<>();
+//        bulkBooksRequestDTO.getBooks().forEach(each -> {
+//            Book book = new Book();
+//
+//            book.setName(each.getName());
+//            book.setDesc(each.getDesc());
+//            book.setBookType(each.getBookType());
+//            book.setYearOfPublication(each.getYearOfPublication());
+//
+//            booksEntity.add(book);
+//
+//        });
+
+        for (int i = 0; i < 100000; i++) {
+            Book book = new Book();
+
+            book.setName("book-"+i);
+            book.setDesc("book-"+i);
+            book.setBookType("book-"+i);
+            book.setYearOfPublication(2022);
+
+            booksEntity.add(book);
+        }
+
+        bookRepository.save(booksEntity);
+
+        return new APIResponse();
     }
 }
