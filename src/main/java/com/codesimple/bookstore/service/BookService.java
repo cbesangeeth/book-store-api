@@ -4,14 +4,13 @@ import com.codesimple.bookstore.common.APIResponse;
 import com.codesimple.bookstore.common.BadRequestException;
 import com.codesimple.bookstore.common.Error;
 import com.codesimple.bookstore.data.BookData;
-import com.codesimple.bookstore.dto.AuthorDTO;
-import com.codesimple.bookstore.dto.BookDTO;
-import com.codesimple.bookstore.dto.BookQueryDslDTO;
-import com.codesimple.bookstore.dto.BulkBooksRequestDTO;
+import com.codesimple.bookstore.dto.*;
 import com.codesimple.bookstore.entity.Author;
 import com.codesimple.bookstore.entity.Book;
 import com.codesimple.bookstore.entity.BookAuthor;
+import com.codesimple.bookstore.entity.BookEdition;
 import com.codesimple.bookstore.repo.BookAuthorRepository;
+import com.codesimple.bookstore.repo.BookEditionRepository;
 import com.codesimple.bookstore.repo.BookRepository;
 import com.codesimple.bookstore.validator.BookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -32,6 +32,8 @@ public class BookService {
 
     @Autowired
     private BookValidator bookValidator;
+    @Autowired
+    private BookEditionRepository bookEditionRepository;
 
     // Get
     public List<Book> getBooks(Set<Integer> yop, String bookType) {
@@ -49,10 +51,10 @@ public class BookService {
     }
 
     // Create
-    public Book createBook(Book book) {
+    public Book createBook(BookRequestDTO bookDTO) {
 
         // validation
-        List<Error> errors = bookValidator.validateCreateBookRequest(book);
+        List<Error> errors = bookValidator.validateCreateBookRequest(bookDTO);
 
         // if not success
         if(errors.size() > 0){
@@ -60,7 +62,26 @@ public class BookService {
         }
 
         // if success
-        return bookRepository.save(book);
+        Book book = new Book();
+        book.setName(bookDTO.getName());
+        book.setBookType(bookDTO.getBookType());
+        book.setDesc(bookDTO.getDesc());
+        book.setYearOfPublication(bookDTO.getYearOfPublication());
+        bookRepository.save(book);
+
+        // populate edition
+        if(!Objects.isNull(bookDTO.getEditions())) {
+            bookDTO.getEditions().forEach(bookEditionDTO -> {
+                BookEdition bookEdition = new BookEdition();
+                bookEdition.setBook(book);
+                bookEdition.setIsbn(bookEditionDTO.getIsbn());
+                bookEdition.setDescription(bookEditionDTO.getDesc());
+                bookEdition.setPageSize(bookEditionDTO.getPageSize());
+                bookEdition.setPrice(bookEditionDTO.getPrice());
+                bookEditionRepository.save(bookEdition);
+            });
+        }
+        return book;
     }
 
     // Single resource

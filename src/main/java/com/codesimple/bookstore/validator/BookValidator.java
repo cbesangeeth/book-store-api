@@ -1,6 +1,7 @@
 package com.codesimple.bookstore.validator;
 
 import com.codesimple.bookstore.common.Error;
+import com.codesimple.bookstore.dto.BookRequestDTO;
 import com.codesimple.bookstore.entity.Book;
 import org.springframework.stereotype.Component;
 
@@ -10,24 +11,24 @@ import java.util.List;
 @Component
 public class BookValidator {
 
-    public List<Error> validateCreateBookRequest(Book book) {
+    public List<Error> validateCreateBookRequest(BookRequestDTO bookDTO) {
 
         List<Error> errors = new ArrayList<>();
 
         // name
-        if(book.getName() == null){
+        if(bookDTO.getName() == null){
             Error error = new Error("name", "book name is null");
             errors.add(error);
         }
 
         // yop
-        if(book.getYearOfPublication() == null){
+        if(bookDTO.getYearOfPublication() == null){
             Error error = new Error("yop", "yop is null");
             errors.add(error);
         }
 
         // book type
-        if(book.getBookType() == null){
+        if(bookDTO.getBookType() == null){
             errors.add(new Error("bookType", "bookType is null"));
         }
 

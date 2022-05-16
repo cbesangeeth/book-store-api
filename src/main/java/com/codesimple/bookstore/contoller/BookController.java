@@ -2,6 +2,7 @@ package com.codesimple.bookstore.contoller;
 
 import com.codesimple.bookstore.common.APIResponse;
 import com.codesimple.bookstore.dto.BookDTO;
+import com.codesimple.bookstore.dto.BookRequestDTO;
 import com.codesimple.bookstore.dto.BulkBooksRequestDTO;
 import com.codesimple.bookstore.entity.Book;
 import com.codesimple.bookstore.service.BookService;
@@ -25,8 +26,9 @@ public class BookController {
     }
 
     @RequestMapping(value = "/books", method = RequestMethod.POST)
-    public Book createBook(@RequestBody Book book) {
-        return bookService.createBook(book);
+    public Book createBook(@RequestBody BookRequestDTO bookDTO) {
+
+        return bookService.createBook(bookDTO);
     }
 
     @RequestMapping(value = "/books/{id}")
@@ -66,6 +68,5 @@ public class BookController {
     public APIResponse bulkBooks(@RequestBody BulkBooksRequestDTO bulkBooksRequestDTO){
         return bookService.bulkService(bulkBooksRequestDTO);
     }
-
 
 }

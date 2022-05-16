@@ -10,14 +10,10 @@ spring:
     show-sql: true
     database: mysql
     hibernate:
-#      ddl-auto: update
 #      show_sql: true
 #      format_sql: true
-#      show-sql: true
-#      dialect: org.hibernate.dialect.MySQLInnoDBDialect
-##      dialect: org.hibernate.dialect.MySQLDialect
       ddl-auto: update
 spring.jpa.properties.hibernate.jdbc.batch_size: 1000
 spring.jpa.properties.hibernate.order_inserts: true
 spring.jpa.properties.hibernate.order_updates: true
-spring.jpa.properties.hibernate.generate_statistics: true
+#spring.jpa.properties.hibernate.generate_statistics: true
